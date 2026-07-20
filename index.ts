@@ -188,5 +188,18 @@ const mainMenu = () => {
   );
 };
 
-mainMenu();
+const autoMode = process.env.MODE;
 
+if (autoMode === "generate") {
+  const amount = parseInt(process.env.AMOUNT || "5");
+  const allowDot = (process.env.ALLOW_DOT || "n").toLowerCase() === "y";
+  console.log(`[AUTO] Generating ${amount} emails (allowDot: ${allowDot})...`);
+  generateEmails(amount, allowDot).then(() => {
+    console.log("[AUTO] Selesai.");
+    process.exit(0);
+  });
+} else if (autoMode === "list") {
+  listEmails().then(() => process.exit(0));
+} else {
+  mainMenu();
+}

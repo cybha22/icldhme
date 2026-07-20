@@ -2,8 +2,10 @@ services:
   icloud-hme-gen:
     build: .
     container_name: icloud-hme-gen
-    stdin_open: true
-    tty: true
+    environment:
+      - MODE=generate
+      - AMOUNT=5
+      - ALLOW_DOT=y
     volumes:
       - ./cookies.json:/app/cookies.json
       - ./emails.txt:/app/emails.txt
