@@ -1,0 +1,10 @@
+services:
+  icloud-hme-gen:
+    build: .
+    container_name: icloud-hme-gen
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./cookies.json:/app/cookies.json
+      - ./emails.txt:/app/emails.txt
+    restart: unless-stopped
