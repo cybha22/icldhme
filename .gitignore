@@ -11,6 +11,7 @@ cookies.json
 emails.txt
 emails-*.txt
 
+logs.txt
 *.log
 npm-debug.log*
 yarn-debug.log*
