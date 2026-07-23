@@ -6,8 +6,8 @@ services:
       - 8.8.8.8
       - 8.8.4.4
     environment:
-      - AMOUNT=5
-      - ALLOW_DOT=y
+      - AMOUNT=${AMOUNT:-10}
+      - ALLOW_DOT=${ALLOW_DOT:-y}
     volumes:
       - ./:/app/data
     restart: unless-stopped
