@@ -1,8 +1,8 @@
 import { promises as fs } from "fs";
 
-export const logEmailToFile = async (email: string): Promise<void> => {
+export const logEmailToFile = async (email: string, filePath: string = "emails.txt"): Promise<void> => {
   try {
-    await fs.appendFile("emails.txt", email + "\n");
+    await fs.appendFile(filePath, email + "\n");
   } catch (err) {
     console.log(err);
   }

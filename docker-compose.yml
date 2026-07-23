@@ -1,7 +1,7 @@
 services:
-  icloud-hme-gen:
+  shibacintatari:
     build: .
-    container_name: icloud-hme-gen
+    container_name: hme-shibacintatari
     dns:
       - 8.8.8.8
       - 8.8.4.4
@@ -9,7 +9,24 @@ services:
       - MODE=generate
       - AMOUNT=5
       - ALLOW_DOT=y
+      - COOKIES_FILE=shibacintatari_cookies.json
     volumes:
-      - ./cookies.json:/app/cookies.json
-      - ./emails.txt:/app/emails.txt
+      - ./shibacintatari_cookies.json:/app/shibacintatari_cookies.json
+      - ./emails-shibacintatari.txt:/app/emails-shibacintatari.txt
+    restart: unless-stopped
+
+  alisha-putri1:
+    build: .
+    container_name: hme-alisha-putri1
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    environment:
+      - MODE=generate
+      - AMOUNT=5
+      - ALLOW_DOT=y
+      - COOKIES_FILE=alisha_putri1_cookies.json
+    volumes:
+      - ./alisha_putri1_cookies.json:/app/alisha_putri1_cookies.json
+      - ./emails-alisha_putri1.txt:/app/emails-alisha_putri1.txt
     restart: unless-stopped

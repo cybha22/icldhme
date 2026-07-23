@@ -3,8 +3,23 @@ import { Cookie, EmailInfo } from "./utils/interfaces";
 import { iCloudHME } from "./modules/icloud";
 import { sleepMs, logEmailToFile } from "./utils/functions";
 import fs from "fs";
+import path from "path";
 
-const cookies: Cookie[] = JSON.parse(fs.readFileSync("./cookies.json", "utf8"));
+const cookiesFile = process.env.COOKIES_FILE || "cookies.json";
+
+const deriveOutputFile = (cookieFileName: string): string => {
+  const base = path.basename(cookieFileName, ".json");
+  if (base === "cookies") return "emails.txt";
+  const name = base.replace(/_cookies$/, "");
+  return `emails-${name}.txt`;
+};
+
+const outputFile = deriveOutputFile(cookiesFile);
+
+console.log(`[CONFIG] Cookies: ${cookiesFile}`);
+console.log(`[CONFIG] Output: ${outputFile}`);
+
+const cookies: Cookie[] = JSON.parse(fs.readFileSync(`./${cookiesFile}`, "utf8"));
 const iCloud = new iCloudHME(cookies);
 
 const prompt = readline.createInterface({
@@ -52,7 +67,7 @@ const generateEmails = async (amount: number, allowDot: boolean) => {
       continue;
     }
 
-    await logEmailToFile(email);
+    await logEmailToFile(email, outputFile);
     counter++;
     console.log(`[${counter}/${amount}] Generated email ${email}`);
   }
