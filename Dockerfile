@@ -10,5 +10,8 @@ RUN yarn install --frozen-lockfile --production=false
 COPY index.ts ./
 COPY modules/ ./modules/
 COPY utils/ ./utils/
+COPY tsconfig.json ./
 
-CMD ["yarn", "start"]
+WORKDIR /app/data
+
+CMD ["node", "--require", "ts-node/register", "/app/index.ts"]
