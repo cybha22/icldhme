@@ -75,18 +75,14 @@ export class iCloudHME {
         if (response.data.error) {
           console.error("Error code:", response.data.error.errorCode);
           console.error("Error message:", response.data.error.errorMessage);
-          throw new Error(`iCloud API Error: ${response.data.error.errorMessage}`);
         }
-        throw new Error("Struktur respons tidak sesuai harapan");
+        return "";
       }
       
       return response.data.result.hme;
     } catch (error: any) {
       console.error("Error pada generateEmail:", error.message);
-      if (error.response) {
-        console.error("Response data:", error.response.data);
-      }
-      throw error;
+      return "";
     }
   }
 
