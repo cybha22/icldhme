@@ -5,11 +5,31 @@ import fs from "fs";
 import path from "path";
 
 const findCookieFiles = (): string[] => {
-  return fs.readdirSync("./").filter((f) => f.endsWith("_cookies.json"));
+  const targetFile = process.env.COOKIE_FILE || process.argv[2];
+  if (targetFile) {
+    if (fs.existsSync(targetFile)) {
+      return [targetFile];
+    }
+    console.log(`File ${targetFile} tidak ditemukan.`);
+    process.exit(1);
+  }
+
+  const files = fs.readdirSync("./").filter((f) => f.endsWith("_cookies.json"));
+  if (files.length > 0) {
+    return files;
+  }
+  if (fs.existsSync("cookies.json")) {
+    return ["cookies.json"];
+  }
+  return [];
 };
 
 const deriveOutputFile = (cookieFileName: string): string => {
-  const name = path.basename(cookieFileName, ".json").replace(/_cookies$/, "");
+  const base = path.basename(cookieFileName, ".json");
+  if (base === "cookies") {
+    return "emails.txt";
+  }
+  const name = base.replace(/_cookies$/, "");
   return `emails-${name}.txt`;
 };
 
