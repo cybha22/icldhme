@@ -4,8 +4,20 @@ import { sleepMs, logEmailToFile } from "./utils/functions";
 import fs from "fs";
 import path from "path";
 
+let cliFile: string | undefined;
+let cliAmount: string | undefined;
+
+if (process.argv[2]) {
+  if (isNaN(parseInt(process.argv[2]))) {
+    cliFile = process.argv[2];
+    cliAmount = process.argv[3];
+  } else {
+    cliAmount = process.argv[2];
+  }
+}
+
 const findCookieFiles = (): string[] => {
-  const targetFile = process.env.COOKIE_FILE || process.argv[2];
+  const targetFile = process.env.COOKIE_FILE || cliFile;
   if (targetFile) {
     if (fs.existsSync(targetFile)) {
       return [targetFile];
@@ -91,7 +103,7 @@ const runAllAccounts = async () => {
     process.exit(1);
   }
 
-  const amount = parseInt(process.env.AMOUNT || "5");
+  const amount = parseInt(process.env.AMOUNT || cliAmount || "5");
   const allowDot = (process.env.ALLOW_DOT || "y").toLowerCase() === "y";
 
   console.log(`Ditemukan ${cookieFiles.length} akun:`);
