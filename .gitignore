@@ -11,6 +11,7 @@ cookies.json
 emails.txt
 emails-*.txt
 
+jancok.txt
 logs.txt
 *.log
 npm-debug.log*

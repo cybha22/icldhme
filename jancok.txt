@@ -1,4 +1,0 @@
-ubuntu@ubuntu:~/icldhme$ ls
-alisha_putri1_cookies.json  cookies.example.json  Dockerfile  modules       tsconfig.json  yarn.lock
-cntri_cookies.json          docker-compose.yml    index.ts    package.json  utils
-ubuntu@ubuntu:~/icldhme$ 
