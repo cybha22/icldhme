@@ -69,6 +69,10 @@ export class iCloudHME {
       
       console.log("Status:", response.status);
       console.log("Response:", JSON.stringify(response.data, null, 2));
+
+      if (response.status === 401 || (response.data && response.data.reason === "Invalid global session")) {
+        throw new Error("Cookie kadaluarsa / Invalid global session! Silakan perbarui file cookies.");
+      }
       
       if (!response.data.result) {
         console.error("Error: result tidak ada dalam respons");
@@ -81,6 +85,12 @@ export class iCloudHME {
       
       return response.data.result.hme;
     } catch (error: any) {
+      if (error.message && error.message.includes("Cookie kadaluarsa")) {
+        throw error;
+      }
+      if (error.response && error.response.status === 401) {
+        throw new Error("Cookie kadaluarsa / Invalid global session! Silakan perbarui file cookies.");
+      }
       console.error("Error pada generateEmail:", error.message);
       return "";
     }

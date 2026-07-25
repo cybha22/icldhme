@@ -77,12 +77,16 @@ const generateEmails = async (
     }
 
     const claimResult = await iCloud.claimEmail(email);
+    if (claimResult && (claimResult.reason === "Invalid global session" || claimResult.error === 2)) {
+      throw new Error("Cookie kadaluarsa / Invalid global session! Silakan perbarui file cookies.");
+    }
+
     if (!claimResult.success) {
       console.log(
-        `[${label}] [${counter}/${amount}] Failed to claim: ${claimResult.error.errorMessage}`
+        `[${label}] [${counter}/${amount}] Failed to claim: ${claimResult.error?.errorMessage || "Unknown error"}`
       );
 
-      if (claimResult.error.errorCode === "-41015") {
+      if (claimResult.error?.errorCode === "-41015") {
         console.log(`[${label}] [${counter}/${amount}] Reached limit, waiting 20 minutes...`);
         await sleepMs(20 * 60 * 1000);
       }
